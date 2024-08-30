@@ -12,9 +12,9 @@ function readData() {
     try {
         if (fs.existsSync(dataFilePath)) {
             const rawData = fs.readFileSync(dataFilePath, 'utf8');
-            return JSON.parse(rawData); // Parse the JSON data
+            return JSON.parse(rawData); 
         }
-        return { users: [] }; // If file doesn't exist, start with an empty array
+        return { users: [] }; 
     } catch (err) {
         console.error("Error reading data:", err);
         return { users: [] };
@@ -32,7 +32,7 @@ function writeData(data) {
 
 // Get user by ID function
 function getUserById(id) {
-    const data = readData(); // Read data from file
+    const data = readData(); 
     return data.users.find(user => user.id === parseInt(id));
 }
 
@@ -77,7 +77,7 @@ app.post("/user/:id/kidneys", (req, res) => {
         
         data.users = data.users.map(u => u.id === user.id ? user : u);
 
-        writeData(data); // Update the data file
+        writeData(data); 
 
         res.json({ msg: "Kidney added successfully!" });
     } catch (error) {
@@ -85,7 +85,7 @@ app.post("/user/:id/kidneys", (req, res) => {
     }
 });
 
-// Update all kidneys to healthy for a specific user
+// Update all kidneys to healthy of user
 app.put("/user/:id/kidneys", (req, res) => {
     try {
         const data = readData(); 
@@ -98,7 +98,7 @@ app.put("/user/:id/kidneys", (req, res) => {
 
         data.users[userIndex].kidneys.forEach(kidney => kidney.healthy = true);
         writeData(data);
-        res.json({ msg: "All kidneys updated to healthy!" });
+        res.json({ msg: "All kidneys updated to healthy" });
     }
     
     catch (error) {
@@ -108,7 +108,7 @@ app.put("/user/:id/kidneys", (req, res) => {
 });
 
 
-// Delete unhealthy kidneys for a specific user
+// Delete unhealthy kidneys of user
 app.delete("/user/:id/kidneys", (req, res) => {
     const data = readData(); 
     const user = getUserById(req.params.id);
@@ -120,7 +120,7 @@ app.delete("/user/:id/kidneys", (req, res) => {
     if (user.kidneys.some(k => !k.healthy)) {
         user.kidneys = user.kidneys.filter(k => k.healthy);
         writeData(data); 
-        res.json({ msg: "Unhealthy kidneys removed!" });
+        res.json({ msg: "Unhealthy kidneys removed" });
     } else {
         res.status(411).json({ msg: "User has no unhealthy kidneys" });
     }
@@ -134,7 +134,7 @@ app.post("/user", (req, res) => {
         name: req.body.name,
         kidneys: []
     };
-    data.users.push(newUser);//add new user
+    data.users.push(newUser);
     writeData(data); 
     res.json({ msg: "User added successfully!", user: newUser });
 });
@@ -148,12 +148,12 @@ app.delete("/user/:id", (req, res) => {
         return res.status(404).json({ msg: "User not found" });
     }
 
-    data.users.splice(userIndex, 1); // Remove the user 
-    writeData(data); // Update the data file
+    data.users.splice(userIndex, 1); 
+    writeData(data); 
     res.json({ msg: "User deleted successfully!" });
 });
 
-// Start the server on port
+
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
