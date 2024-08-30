@@ -24,7 +24,7 @@ function readData() {
 // Write data to file
 function writeData(data) {
     try {
-        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2)); // Write pretty-printed JSON
+        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2)); 
     } catch (err) {
         console.error("Error writing data:", err);
     }
