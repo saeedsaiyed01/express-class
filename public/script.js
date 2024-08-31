@@ -1,14 +1,9 @@
-
-
-
 document.getElementById('theme-toggle').addEventListener('click', function() {
-    // Toggle dark mode on body
-
+    
     document.body.classList.toggle('dark-mode');
     document.body.classList.toggle('light-mode');
     
-    
-    // Toggle the button icon
+
     this.textContent = document.body.classList.contains('dark-mode') ? '🌙' : '🌙';
 });
 
@@ -21,7 +16,7 @@ document.getElementById('addUserName').addEventListener('input', function() {
 
 
 
-let currentUserId = null;  // Variable to store the current user's ID
+let currentUserId = null; 
 
 function addUser() {
     const userName = document.getElementById('addUserName').value;
