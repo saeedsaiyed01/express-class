@@ -17,71 +17,71 @@ body {
     padding: 10px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+    transition: background-color 0.3s, border-color 0.3s; 
 }
 
-/* Light theme */
+
 body.light-mode {
-    background-color: #f0f4f8; /* Soft light gray */
-    color: #333333; /* Darker text for readability */
+    background-color: #f0f4f8; 
+    color: #333333;
 }
 
 body.light-mode .navbar {
-    background-color: #ffffff; /* White background for navbar */
-    border-bottom: 1px solid #dddddd; /* Subtle border */
+    background-color: #ffffff; 
+    border-bottom: 1px solid #dddddd; 
 }
 
 body.light-mode .button,
 body.light-mode .user-actions button {
-    background-color: #ffffff; /* White background for buttons */
-    color: #333333; /* Dark text for buttons */
-    border: 1px solid #dddddd; /* Subtle border */
+    background-color: #ffffff;
+    color: #333333; 
+    border: 1px solid #dddddd; 
 }
 
 body.light-mode .button:hover,
 body.light-mode .user-actions button:hover {
-    background-color: #f0f0f0; /* Slightly darker white on hover */
+    background-color: #f0f0f0; 
 }
 
 body.light-mode .user-actions input {
-    background-color: #ffffff; /* White background for inputs */
-    color: #333333; /* Dark text for inputs */
-    border: 1px solid #dddddd; /* Subtle border */
+    background-color: #ffffff; 
+    color: #333333; 
+    border: 1px solid #dddddd; 
 }
 
-/* Dark theme */
+
 body.dark-mode {
-    background-color: #181818; /* Dark background */
-    color: #e5e5e5; /* Light text */
+    background-color: #181818; 
+    color: #e5e5e5; 
 }
 
 body.dark-mode .navbar {
-    background-color: #2e2e2e; /* Dark background for navbar */
-    border-bottom: 1px solid #444444; /* Darker border */
+    background-color: #2e2e2e; 
+    border-bottom: 1px solid #444444; 
 }
 
 body.dark-mode .button,
 body.dark-mode .user-actions button {
-    background-color: #333333; /* Dark background for buttons */
-    color: #e5e5e5; /* Light text for buttons */
-    border: 1px solid #444444; /* Darker border */
+    background-color: #333333;
+    color: #e5e5e5; 
+    border: 1px solid #444444;
 }
 
 body.dark-mode .button:hover,
 body.dark-mode .user-actions button:hover {
-    background-color: #555555; /* Slightly lighter dark on hover */
+    background-color: #555555; 
 }
 
 body.dark-mode .user-actions input {
-    background-color: #333333; /* Dark background for inputs */
-    color: #e5e5e5; /* Light text for inputs */
-    border: 1px solid #444444; /* Darker border */
+    background-color: #333333; 
+    color: #e5e5e5; 
+    border: 1px solid #444444; 
 }
 
 body.dark-mode #output {
-    background-color: #2e2e2e; /* Dark background for output */
-    color: #e5e5e5; /* Light text for output */
-    border: 1px solid #444444; /* Darker border */
+    background-color: #2e2e2e; 
+    color: #e5e5e5; 
+    border: 1px solid #444444; 
 }
 .navbar {
     width: 100%;
