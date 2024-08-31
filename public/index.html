@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidneys-Game</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="light-mode">
+    <nav class="navbar">
+        <div class="logo" style="color:#2346d1;">100xDevs</div>
+        <button id="theme-toggle" class="theme-button">🌙</button>
+    </nav>
+    
+    <div class="main-content">
+        <div class="info">
+            <h1 style="color:#2346d1;">Kidney Management Game</h1>
+        </div>
+        
+        <div class="user-actions">
+            <input type="text" id="addUserName" placeholder="Enter User Name">
+            <button onclick="addUser()">Add User</button>
+            <button onclick="addKidney()">Add Kidney</button>
+            <button onclick="addUnhealthyKidney()">Add Unhealthy Kidney</button>
+            <button onclick="removeUnhealthyKidney()">Remove Unhealthy Kidneys</button>
+            <button onclick="removeUser()">Remove User</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2 style="color:#2346d1;">Patient Details</h2>
+        <div id="output"></div>
+    </div>
+    
+    <script src="/script.js"></script>
+</body>
+</html>

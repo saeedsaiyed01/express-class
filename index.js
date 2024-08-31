@@ -7,6 +7,13 @@ app.use(express.json());
 
 const dataFilePath = path.join(__dirname, 'data.json');
 
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 // Read data from file
 function readData() {
     try {
@@ -45,7 +52,7 @@ app.get("/", (req, res) => {
 app.get("/user/:id", (req, res) => {
     const user = getUserById(req.params.id);
     if (!user) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ msg    });
     }
 
     const kidneys = user.kidneys;
@@ -58,7 +65,7 @@ app.get("/user/:id", (req, res) => {
         numberOfKidneys,
         numberOfHealthyKidneys,
         numberOfUnhealthyKidneys
-    });
+    });a
 });
 
 
@@ -145,7 +152,7 @@ app.delete("/user/:id", (req, res) => {
     const userIndex = data.users.findIndex(user => user.id === parseInt(req.params.id));
 
     if (userIndex === -1) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({});
     }
 
     data.users.splice(userIndex, 1); 
