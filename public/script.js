@@ -38,8 +38,8 @@ function addUser() {
     .then(response => response.json())
     .then(data => {
         displayMessage(data.msg);
-        currentUserId = data.user.id;  // Store the user ID for future operations
-        getUserDetails(currentUserId); // Display the new user's details
+        currentUserId = data.user.id;  
+        getUserDetails(currentUserId); 
     })
     .catch(error => {
         console.error('Error adding user:', error);
@@ -58,12 +58,12 @@ function addKidney() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ isHealthy: true })  // Assuming kidney is healthy by default
+        body: JSON.stringify({ isHealthy: true })  
     })
     .then(response => response.json())
     .then(data => {
         displayMessage(data.msg);
-        getUserDetails(currentUserId);  // Refresh user details to show the updated kidney count
+        getUserDetails(currentUserId); 
     })
     .catch(error => {
         console.error('Error adding kidney:', error);
@@ -88,7 +88,7 @@ function addUnhealthyKidney() {
     .then(response => response.json())
     .then(data => {
         displayMessage(data.msg);
-        getUserDetails(currentUserId);  // Refresh user details to show the updated kidney count
+        getUserDetails(currentUserId);  
     })
     .catch(error => {
         console.error('Error adding kidney:', error);
@@ -103,29 +103,33 @@ function removeUnhealthyKidney() {
     }
 
     fetch(`/user/${currentUserId}/kidneys`, {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ isHealthy: false })  // Ensure this matches your API expectations
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            if (response.status === 404) {
+                throw new Error('User not found.');
+            } else if (response.status === 411) {
+                throw new Error('User has no unhealthy kidneys.');
+            } else {
+                throw new Error('Network response was not ok.');
+            }
         }
         return response.json();
     })
     .then(data => {
         displayMessage(data.msg);
-        getUserDetails(currentUserId);  // Refresh user details
+   
+        getUserDetails(currentUserId);
     })
     .catch(error => {
         console.error('Error removing kidney:', error);
-        displayMessage('Failed to remove kidney.');
+        displayMessage(error.message || 'Failed to remove kidney.');
     });
 }
-
-
 
 
 
@@ -138,12 +142,12 @@ function removeUser() {
 
     console.log(`Removing user with ID: ${currentUserId}`);
 
-    fetch(`/user/${currentUserId}`, {  // No trailing slash needed
+    fetch(`/user/${currentUserId}`, { 
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
-        // No body is needed for DELETE request
+       
     })
     .then(response => {
         if (!response.ok) {
@@ -153,8 +157,8 @@ function removeUser() {
     })
     .then(data => {
         displayMessage(data.msg);
-        currentUserId = null;  // Reset currentUserId after deletion
-        getUserDetails(null); // Clear or refresh user details
+        currentUserId = null;  
+        getUserDetails(null); 
     })
     .catch(error => {
         console.error('Error removing user:', error);

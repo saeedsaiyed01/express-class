@@ -7,13 +7,14 @@ app.use(express.json());
 
 const dataFilePath = path.join(__dirname, 'data.json');
 
-
-
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Send index.html for the root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
 // Read data from file
 function readData() {
     try {
@@ -31,7 +32,7 @@ function readData() {
 // Write data to file
 function writeData(data) {
     try {
-        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2)); 
+        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2)); // Write pretty-printed JSON
     } catch (err) {
         console.error("Error writing data:", err);
     }
@@ -48,11 +49,11 @@ app.get("/", (req, res) => {
     res.send("Welcome to the Kidney Health Server! Use /user/:id to get user data.");
 });
 
-// Get user's kidneys by user ID
+
 app.get("/user/:id", (req, res) => {
     const user = getUserById(req.params.id);
     if (!user) {
-        return res.status(404).json({ msg    });
+        return res.status(404).json({ msg });
     }
 
     const kidneys = user.kidneys;
@@ -64,10 +65,9 @@ app.get("/user/:id", (req, res) => {
         name: user.name,
         numberOfKidneys,
         numberOfHealthyKidneys,
-        numberOfUnhealthyKidneys
-    });a
+        numberOfUnhealthyKidneys,
+    });
 });
-
 
 app.post("/user/:id/kidneys", (req, res) => {
     try {
@@ -81,7 +81,7 @@ app.post("/user/:id/kidneys", (req, res) => {
         const isHealthy = req.body.isHealthy;
         user.kidneys.push({ healthy: isHealthy });
 
-        
+       
         data.users = data.users.map(u => u.id === user.id ? user : u);
 
         writeData(data); 
@@ -92,46 +92,37 @@ app.post("/user/:id/kidneys", (req, res) => {
     }
 });
 
-// Update all kidneys to healthy of user
-app.put("/user/:id/kidneys", (req, res) => {
-    try {
-        const data = readData(); 
-
-        // Find the user by ID
-        const userIndex = data.users.findIndex(user => user.id === parseInt(req.params.id));
-        if (userIndex === -1) {
-            return res.status(404).json({ msg: "User not found" });
-        }
-
-        data.users[userIndex].kidneys.forEach(kidney => kidney.healthy = true);
-        writeData(data);
-        res.json({ msg: "All kidneys updated to healthy" });
-    }
-    
-    catch (error) {
-        console.error("Error updating kidneys:", error);
-        res.status(500).json({ msg: "Internal server error", error: error.message });
-    }
-});
-
-
 // Delete unhealthy kidneys of user
+
 app.delete("/user/:id/kidneys", (req, res) => {
+    const userId = parseInt(req.params.id); 
     const data = readData(); 
-    const user = getUserById(req.params.id);
+    const user = getUserById(userId); 
+
+    console.log('Request for user ID:', userId);
+    console.log('User found:', user);
 
     if (!user) {
         return res.status(404).json({ msg: "User not found" });
     }
 
-    if (user.kidneys.some(k => !k.healthy)) {
-        user.kidneys = user.kidneys.filter(k => k.healthy);
-        writeData(data); 
-        res.json({ msg: "Unhealthy kidneys removed" });
-    } else {
-        res.status(411).json({ msg: "User has no unhealthy kidneys" });
+   
+    const unhealthyKidneys = user.kidneys.filter(kidney => !kidney.healthy);
+
+    if (unhealthyKidneys.length === 0) {
+        return res.status(400).json({ msg: "No unhealthy kidneys found" });
     }
+
+    
+    user.kidneys = user.kidneys.filter(kidney => kidney.healthy);
+
+   
+    data.users = data.users.map(u => u.id === userId ? user : u);
+    writeData(data); 
+
+    res.json({ msg: "Unhealthy kidneys removed" });
 });
+
 
 // Add a new user
 app.post("/user", (req, res) => {
@@ -152,14 +143,13 @@ app.delete("/user/:id", (req, res) => {
     const userIndex = data.users.findIndex(user => user.id === parseInt(req.params.id));
 
     if (userIndex === -1) {
-        return res.status(404).json({});
+        return res.status(404).json({ msg: "User not found" });
     }
 
     data.users.splice(userIndex, 1); 
     writeData(data); 
     res.json({ msg: "User deleted successfully!" });
 });
-
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
